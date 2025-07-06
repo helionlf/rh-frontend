@@ -5,6 +5,7 @@ import VagasCrud from "../pages/admin/vagasCrud";
 import ProtectedRoute from "./protectedRoute";
 import VagasList from "../pages/public/vagasList";
 import VagaDetalhes from "../pages/public/vagaDetalhes";
+import VagaCrudDetalhes from "../pages/admin/vagaCrudDetalhes";
 
 export default function AppRoutes() {
   return (
@@ -20,6 +21,11 @@ export default function AppRoutes() {
           <VagasCrud />
         </ProtectedRoute>
       } />
-      </Routes>
+      <Route path="/admin/vagas/:id" element={
+        <ProtectedRoute role="admin">
+          <VagaCrudDetalhes />
+        </ProtectedRoute>
+      } />
+    </Routes>
   );
 }

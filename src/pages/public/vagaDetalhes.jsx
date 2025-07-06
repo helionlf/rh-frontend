@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-
 
 export default function VagaDetalhes() {
   const { id } = useParams();
   const [vaga, setVaga] = useState(null);
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   const token = usuario?.token || null;
-  console.log("Token usado na candidatura:", token);
-
 
   useEffect(() => {
     fetch(`http://localhost:8080/public/vagas/${id}`)
