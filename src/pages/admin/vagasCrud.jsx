@@ -12,6 +12,7 @@ export default function VagasCrud() {
   const [newDescription, setNewDescription] = useState("");
   const [newVacancies, setNewVacancies] = useState();
   const [newWage, setNewWage] = useState();
+  const [newEmailRecrutador, setNewEmailRecrutador] = useState("null");
 
   useEffect(() => {
     if (!usuario?.token) return;
@@ -28,7 +29,7 @@ export default function VagasCrud() {
   }, [usuario]);
 
   function criarVaga() {
-    if (!newTitle.trim() || !newDescription.trim() || !newDescription.trim() || !newWage.trim()) {
+    if (!newTitle.trim() || !newDescription.trim() || newVacancies === '' || newWage === '' || !newEmailRecrutador.trim()) {
       alert("Preencha todos os campos!");
       return;
     }
@@ -37,7 +38,8 @@ export default function VagasCrud() {
       title: newTitle,
       description: newDescription,
       vacancies: newVacancies,
-      wage: newWage
+      wage: newWage,
+      emailRecrutador: newEmailRecrutador
     }
 
     fetch(API_URL, {
@@ -59,10 +61,6 @@ export default function VagasCrud() {
       alert("Erro ao cadastrar vaga");
     });
 
-  }
-
-  function editar() {
-    alert("Função editar ainda não implementada.");
   }
 
   function excluir(id) {
@@ -119,6 +117,13 @@ export default function VagasCrud() {
           onChange={(e) => setNewWage(e.target.value)}
         />
 
+        <input
+          type="email"
+          placeholder="Email para receber as candidaturas"
+          value={newEmailRecrutador}
+          onChange={(e) => setNewEmailRecrutador(e.target.value)}
+        />
+
         <button onClick={criarVaga}>Postar</button>
       </div>
 
@@ -129,7 +134,6 @@ export default function VagasCrud() {
               <Link to={`/admin/vagas/${vaga.id}`}>
                 <strong>{vaga.title}</strong> | {vaga.wage}
               </Link>
-              <button onClick={editar}>Editar</button>
               <button onClick={() => excluir(vaga.id)}>Excluir</button>
             </li>
           ))}

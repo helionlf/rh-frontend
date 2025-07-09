@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/home";
 import Login from "../pages/login";
+import Cadastro from "../pages/cadastroUsuario";
 import VagasCrud from "../pages/admin/vagasCrud";
 import ProtectedRoute from "./protectedRoute";
 import VagasList from "../pages/public/vagasList";
@@ -12,6 +13,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/vagas" element={<VagasList />} />
       <Route path="/vagas/:id" element={<VagaDetalhes />} />
 

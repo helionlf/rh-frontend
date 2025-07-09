@@ -8,6 +8,7 @@ export default function VagaDetalhes() {
   const [newDescription, setNewDescription] = useState("null");
   const [newVacancies, setNewVacancies] = useState(0);
   const [newWage, setNewWage] = useState(0);
+  const [newEmailRecrutador, setNewEmailRecrutador] = useState("null");
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   const token = usuario?.token || null;
 
@@ -25,12 +26,13 @@ export default function VagaDetalhes() {
         setNewDescription(data.description)
         setNewVacancies(data.vacancies)
         setNewWage(data.wage)
+        setNewEmailRecrutador(data.emailRecrutador)
       })
       .catch(err => console.error("Erro ao buscar vaga:", err));
   }, [id]);
 
   function salvar() {
-    if (!newTitle.trim() || !newDescription.trim() || !newDescription.trim() || !newWage.trim()) {
+    if (!newTitle.trim() || !newDescription.trim() || newVacancies === '' || newWage === '' || !newEmailRecrutador.trim()) {
       alert("Preencha todos os campos!");
       return;
     }
@@ -39,7 +41,8 @@ export default function VagaDetalhes() {
       title: newTitle,
       description: newDescription,
       vacancies: newVacancies,
-      wage: newWage
+      wage: newWage,
+      emailRecrutador: newEmailRecrutador
     }
 
     fetch(`http://localhost:8080/rh-admin/vagas/${id}`, {
@@ -50,9 +53,13 @@ export default function VagaDetalhes() {
         },
         body: JSON.stringify(novaVaga)
     })
-      .then(res => res.json())
-      .then(() => alert("Candidatura salva com sucesso!"))
-      .catch(err => console.error("Erro ao salvar vaga:", err));
+
+    .then(res => {
+      if (!res.ok) throw new Error(`Erro ao salvar vaga: ${res.status}`);
+      return res.json();
+    })
+    .then(() => alert("Candidatura salva com sucesso!"))
+    .catch(err => console.error("Erro ao salvar vaga:", err));
     };
 
   if (!vaga) {
@@ -83,6 +90,12 @@ export default function VagaDetalhes() {
           type="number"
           value={newWage}
           onChange={(e) => setNewWage(e.target.value)}
+        />
+
+        <input
+          type="email"
+          value={newEmailRecrutador}
+          onChange={(e) => setNewEmailRecrutador(e.target.value)}
         />
 
         <button onClick={salvar}>Salvar</button>
