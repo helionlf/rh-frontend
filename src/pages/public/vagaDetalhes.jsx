@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 export default function VagaDetalhes() {
   const { id } = useParams();
   const [vaga, setVaga] = useState(null);
+  const [curriculo, setCurriculo] = useState(null);
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   const token = usuario?.token || null;
 
@@ -19,12 +20,20 @@ function candidatar() {
   const token = usuario?.token || null;
   console.log("Token usado na candidatura:", token);
 
+  if (!curriculo) {
+    alert("Selecione um currículo antes de se candidatar.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("curriculo", curriculo);
+
   fetch(`http://localhost:8080/public/vagas/${id}/candidatar`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: token ? `Bearer ${token}` : "",
     },
+    body: formData,
   })
     .then(res => {
       console.log("Status da resposta:", res.status);
@@ -51,6 +60,16 @@ function candidatar() {
         <p>Vagas: {vaga.vacancies}</p>
         <p>Salário: {vaga.wage}</p>
       </div>
+
+      <label>
+          Currículo:
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx,"
+            onChange={(e) => setCurriculo(e.target.files[0])}
+          />
+      </label>
+
       <div>
         <button onClick={candidatar}>Candidatar-se</button>
       </div>
