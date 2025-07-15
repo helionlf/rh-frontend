@@ -18,7 +18,6 @@ export default function VagaDetalhes() {
 function candidatar() {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   const token = usuario?.token || null;
-  console.log("Token usado na candidatura:", token);
 
   if (!curriculo) {
     alert("Selecione um currículo antes de se candidatar.");

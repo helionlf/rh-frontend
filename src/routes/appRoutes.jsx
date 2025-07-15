@@ -3,6 +3,7 @@ import Home from "../pages/home";
 import Login from "../pages/login";
 import Cadastro from "../pages/cadastroUsuario";
 import VagasCrud from "../pages/admin/vagasCrud";
+import MinhasVagas from "../pages/usuario/minhasCandidaturas";
 import ProtectedRoute from "./protectedRoute";
 import VagasList from "../pages/public/vagasList";
 import VagaDetalhes from "../pages/public/vagaDetalhes";
@@ -16,6 +17,7 @@ export default function AppRoutes() {
       <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/vagas" element={<VagasList />} />
       <Route path="/vagas/:id" element={<VagaDetalhes />} />
+      <Route path="/vagas/aplicadas" element={<MinhasVagas />} />
 
       {/* Apenas usuários com role = 'admin' acessam */}
       <Route path="/admin/vagas" element={
